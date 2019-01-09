@@ -57,20 +57,7 @@
       </div>
     </div>
 
-    <nav>
-      <ul class="pagination justify-content-center">
-        <template v-if="pageObj.last > 1">
-          <li
-            class="page-item"
-            :class="[ n == pageObj.current ? 'active' : '']"
-            v-for="n in pageObj.last"
-            :key="n"
-          >
-            <router-link class="page-link" :to="`/posts/${post.id}?page=${n}`">{{ n }}</router-link>
-          </li>
-        </template>
-      </ul>
-    </nav>
+    <pagination :page="pageObj"></pagination>
 
     <form @submit.prevent="createComment(post.id)">
       <div class="form-group">
@@ -90,8 +77,11 @@
   </div>
 </template>
 <script>
+import Pagination from '@/js/components/Pagination';
+
 export default {
   props: ["id"],
+  components: { Pagination },
   data() {
     return {
       post: [],
@@ -104,7 +94,9 @@ export default {
       updateBody: "",
       pageObj: {
         current: 1,
-        last: null
+        last: null,
+        type: 'commentList',
+        post_id: this.id
       },
       error: [],
       edit: false
@@ -127,6 +119,7 @@ export default {
   methods: {
     getPostById(page = 1) {
       this.$Progress.start();
+      this.pageObj.current = page;
       axios.get(`/api/posts/${this.id}?page=${page}`).then(response => {
         this.$Progress.finish();
         this.post = response.data.post;

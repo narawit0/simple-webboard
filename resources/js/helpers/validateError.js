@@ -1,5 +1,6 @@
 export function catchValidate(error) {
     var errors = [];
+    console.log(error);
     if (error.response.data.errors) {
         var errorObj = error.response.data.errors;
         for (var key in errorObj) {

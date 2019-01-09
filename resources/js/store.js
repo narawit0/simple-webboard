@@ -1,5 +1,4 @@
 import { getLocalUser } from "./helpers/auth";
-import jwtDecode from 'jwt-decode';
 
 const user = getLocalUser();
 var token = user ? user.token : '';

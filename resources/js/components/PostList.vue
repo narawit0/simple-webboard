@@ -28,31 +28,22 @@
           <button class="btn btn-danger btn-sm" @click="deletePost(post.id)">Delete</button>
         </div>
       </div>
-
-      <nav>
-        <ul class="pagination justify-content-center">
-          <template v-if="pageObj.last > 1">
-            <li
-              class="page-item"
-              :class="[ n == pageObj.current ? 'active' : '']"
-              v-for="n in pageObj.last"
-              :key="n"
-            >
-              <a class="page-link" @click.prevent="getPostByPage(n)">{{ n }}</a>
-            </li>
-          </template>
-        </ul>
-      </nav>
+      <pagination :page="pageObj" @postPage="getPostByPage"></pagination>
+      
     </template>
   </div>
 </template>
 <script>
+import Pagination from '@/js/components/Pagination';
+
 export default {
+  components: {Pagination},
   data() {
     return {
       pageObj: {
         current: 1,
-        last: null
+        last: null,
+        type: 'postList'
       }
     };
   },
